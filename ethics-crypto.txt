@@ -1,0 +1,8 @@
+This is a short ethics question based on the ethics
+lecture that goes with the crypto assignment.
+Please type your answer below, and submit this file as
+part of your assignment.
+
+Describe a hypothetical scenario where there is information that, say, a US prosecutor wants. They obtain a warrant for the information, but they cannot in reality access the information because of encryption. Mention in your description where the information is stored and why it cannot be read by the prosecutor.
+
+Your answer:
