@@ -24,23 +24,17 @@ def compute_slug(key):
     >>> compute_slug('Zounds!')
     ['z', 'o', 'u', 'n', 'd', 's', 'a', 'b', 'c', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'p', 'q', 'r', 't', 'v', 'w', 'x', 'y']
     """
-    result = []
-    for ch in key:  # loops through all the characters in key
-        key.lower()        # makes the key lowercase
-        result += ch       # adds the characters to empty list
-    new_alpha = ALPHABET.pop(25)
-    result += new_alpha
 
-    return result
-
-# pseudo
-# convert the key to lowercase letters
-# loop through all the characters in the key
-# append them into an empty list
-# pop the repeat mfs from the new list
-    # use two var form of find a repeat
-# pop the characters in the alphabet list from thre
-# add the two strings together
+    key = key.lower()
+    out = []       # creates an empty list for the new alphabet
+    for ch in key:    # loops through all of the characters in the original key
+        if ch.isalpha(): # checks to make sure that the character going into new key is letter
+            if ch not in out:   # makes sure there are no repeats
+                out.append(ch)   # adds in the new characters into the out list
+    for ch in ALPHABET:
+        if ch not in out:
+            out.append(ch)
+    return out
 
 
 def encrypt_char(source, slug, ch):
@@ -62,6 +56,7 @@ def encrypt_char(source, slug, ch):
     >>> encrypt_char(ALPHABET, z_slug, '\\n')
     '\\n'
     """
+
     result_ch = ''
     if ch.isupper():  # if i is uppercase
         ch = ch.lower()  # makes each character lwoercase, not mutable
@@ -79,6 +74,17 @@ def encrypt_char(source, slug, ch):
     else:
         result_ch += ch
     return result_ch
+
+
+# psuedo
+# create blank list
+# find lowercase version of ch in source
+# if ch in source
+# ch_index = find.ch()
+# encrypted = find.source(ch_index)
+# enc_letter = list.name[encrypted]
+# append that bih
+# return encrypted list
 
 
 def encrypt_str(source, slug, s):
@@ -114,8 +120,7 @@ def decrypt_str(source, slug, s):
                 e_char = source[slug_pos]  # returns source character at slug position
                 e_char = e_char.upper()  # not mutable, replace w new version of itself
                 result_ch += e_char
-
-        if ch.islower():  # if i is lowercase
+        elif ch.islower():  # if i is lowercase
             if ch.isalpha():  # if the character in source is a letter
                 slug_pos = slug.index(ch)  # finds index of the source character
                 e_char = source[slug_pos]  # returns slug character at ch_index
@@ -130,7 +135,12 @@ def encrypt_file(filename, key):
     Given filename and key, compute and
     print the encrypted form of its lines.
     """
-    pass
+
+    with open(filename) as f:
+        slug = compute_slug(key) # open a file
+        for line in f:         # loops through line in file
+            new_line = encrypt_str(ALPHABET, slug, line)     # new line is encrypted using reg alpha, slug + text line
+            print(new_line)      # new line is printed
 
 
 def decrypt_file(filename, key):
@@ -138,16 +148,26 @@ def decrypt_file(filename, key):
     Given filename and key, compute and
     print the decrypted form of its lines.
     """
-    pass
+
+    with open(filename) as f:
+        slug = compute_slug(key) # open a file
+        for line in f:         # loops through line in file
+            new_line = decrypt_str(ALPHABET, slug, line)     # new line is decrypted using reg alpha, slug + text line
+            print(new_line)      # new line is printed
 
 
 def main():
     args = sys.argv[1:]
     # 2 command line argument patterns:
     # -encrypt key filename
+    if len(args) == 3 and args[0] == '-encrypt':
+        encrypt_file(args[2], args[1])
+    elif len(args) == 3 and args[0] == '-decrypt':
+        decrypt_file(args[2], args[1])
+    else:
+        print('error')
     # -decrypt key filename
     # Call encrypt_file() or decrypt_file() based on the args.
-    pass
 
 
 # Python boilerplate.
