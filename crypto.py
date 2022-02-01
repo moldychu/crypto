@@ -62,7 +62,23 @@ def encrypt_char(source, slug, ch):
     >>> encrypt_char(ALPHABET, z_slug, '\\n')
     '\\n'
     """
-    pass
+    result_ch = ''
+    if ch.isupper():  # if i is uppercase
+        ch = ch.lower()  # makes each character lwoercase, not mutable
+        if ch.isalpha():  # if the character in source is a letter
+            i_index = source.index(ch)  # finds index of the source character
+            e_char = slug[i_index] # returns slug character at ch_index
+            e_char = e_char.upper()  # not mutable, replace w new version of itself
+            result_ch += e_char
+        return result_ch
+    if ch.islower():  # if i is lowercase
+        if ch.isalpha():  # if the character in source is a letter
+            i_index = source.index(ch)  # finds index of the source character
+            e_char = slug[i_index]  # returns slug character at ch_index
+            result_ch += e_char  # appends the encrypted letter
+    else:
+        result_ch += ch
+    return result_ch
 
 
 def encrypt_str(source, slug, s):
@@ -74,7 +90,11 @@ def encrypt_str(source, slug, s):
     >>> encrypt_str(ALPHABET, z_slug, 'And like a thunderbolt he falls.\\n')
     'Zmc khjd z sgtmcdqanks gd ezkkr.\\n'
     """
-    pass
+    enc = ''
+    for ch in s:
+        new_ch = encrypt_char(source, slug, ch)
+        enc += new_ch
+    return enc
 
 
 def decrypt_str(source, slug, s):
@@ -85,7 +105,24 @@ def decrypt_str(source, slug, s):
     >>> decrypt_str(ALPHABET, z_slug, 'Zmc khjd z sgtmcdqanks gd ezkkr.\\n')
     'And like a thunderbolt he falls.\\n'
     """
-    pass
+    result_ch = ''
+    for ch in s:
+        if ch.isupper():  # if i is uppercase
+            ch = ch.lower()  # makes each character lwoercase, not mutable
+            if ch.isalpha():  # if the character in source is a letter
+                slug_pos = slug.index(ch)  # finds index of the character in the slug
+                e_char = source[slug_pos]  # returns source character at slug position
+                e_char = e_char.upper()  # not mutable, replace w new version of itself
+                result_ch += e_char
+
+        if ch.islower():  # if i is lowercase
+            if ch.isalpha():  # if the character in source is a letter
+                slug_pos = slug.index(ch)  # finds index of the source character
+                e_char = source[slug_pos]  # returns slug character at ch_index
+                result_ch += e_char  # appends the encrypted letter
+        else:
+            result_ch += ch
+    return result_ch
 
 
 def encrypt_file(filename, key):
